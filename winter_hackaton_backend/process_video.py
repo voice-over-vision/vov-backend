@@ -1,5 +1,6 @@
 import numpy as np
 from moviepy.editor import VideoFileClip
+from pathlib import Path
 
 
 def get_scenes(video_path):
@@ -50,7 +51,7 @@ def find_silent_parts(video_file, youtube_transcript, volume_threshold=0.1, sile
     Returns:
     - A list of objects, each representing the start and end of a silent interval in seconds.
     """
-    video = VideoFileClip(video_file)
+    video = VideoFileClip(Path(video_file).as_posix())
     audio = video.audio
     audio_frames = audio.to_soundarray()
     volume = np.sqrt(((audio_frames**2).mean(axis=1)))
@@ -85,6 +86,7 @@ def find_silent_parts(video_file, youtube_transcript, volume_threshold=0.1, sile
     for low_volume in low_volume_parts:
         is_overlapping = False
         for transcript in youtube_transcript:
+            transcript['end'] = transcript['start'] + transcript['duration']
             if(low_volume['start'] >= transcript['start'] and low_volume['end'] <= transcript['end']):
                 is_overlapping = True
             if(low_volume['start'] <= transcript['start'] and low_volume['end'] >= transcript['start']):
