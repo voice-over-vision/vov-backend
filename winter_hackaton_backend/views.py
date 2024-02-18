@@ -43,7 +43,7 @@ def get_audio_description(request):
             audio_descriptions = [] 
             for index, scene in enumerate(scenes):
                 message = is_audio_comprehensive(scene)
-                if(index > 3):
+                if(index > 10):
                     break
                 if(message['is_comprehensive'] == False):
                     audio_descriptions.append({"description": message['description'],
@@ -51,8 +51,8 @@ def get_audio_description(request):
 
             with open(output_dir, 'w') as file:
                 json.dump(audio_descriptions, file, indent=4) 
-
-            return HttpResponse(json.dumps(audio_descriptions), content_type="application/json")
+                
+            return HttpResponse({ 'data' : audio_descriptions}, content_type="application/json")
         else:
             error_response = {'error': 'youtubeID parameter is missing in the request'}
             return JsonResponse(error_response, status=400)
