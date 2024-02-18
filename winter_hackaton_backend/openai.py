@@ -7,7 +7,7 @@ from PIL import Image
 import io
 import re
 import json
-
+import re
 env = environ.Env()
 environ.Env.read_env()
 api_key = env("OPENAI_API_KEY")
@@ -53,7 +53,7 @@ def is_audio_comprehensive(scene):
                     },
                     {
                         "type": "text",
-                        "text": "Maximum 200 characters for the description without making any mentions or use of information from the transcript"
+                        "text": "Maximum 200 characters for the description"
                     },
                     {
                         "type": "text",

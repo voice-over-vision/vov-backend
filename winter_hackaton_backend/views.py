@@ -4,17 +4,14 @@ from pytube import YouTube
 import requests
 from winter_hackaton_backend.openai import is_audio_comprehensive
 from winter_hackaton_backend.process_video import find_silent_parts
+from winter_hackaton_backend.scene_data_extraction.time_decorator import timing_decorator
 from winter_hackaton_backend.scene_data_extraction.scene_data_extractor import get_data_by_scene
 from winter_hackaton_backend.utils import get_silent_parts_for_each_scenes, time_to_seconds
 import os
 import json
 
-def get_description_for_each_scene(scenes_transcripts_list):
-    description = "s"
-    return description
-
-
 # Create your views here.
+@timing_decorator
 def get_audio_description(request):
     youtube_id = request.GET.get('youtubeID', None)
     output_dir = os.path.join('output', f'{youtube_id}.json')
@@ -25,8 +22,10 @@ def get_audio_description(request):
 
             #get video 
             yt =  YouTube(f'http://youtube.com/watch?v={youtube_id}')
-            video_path = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').first().download()
-            
+            if not os.path.exists(f'./{yt.streams.first().default_filename}'):
+                video_path = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').first().download()
+            else:
+                video_path = os.path.abspath(f'./{yt.streams.first().default_filename}')
             
             # get scene data 
             keyframes_path = f'./keyframes-{youtube_id}'
@@ -43,7 +42,7 @@ def get_audio_description(request):
             audio_descriptions = [] 
             for index, scene in enumerate(scenes):
                 message = is_audio_comprehensive(scene)
-                if(index > 10):
+                if(index > 9):
                     break
                 if(message['is_comprehensive'] == False):
                     audio_descriptions.append({"description": message['description'],
