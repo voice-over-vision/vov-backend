@@ -53,7 +53,7 @@ def is_audio_comprehensive(scene):
                     },
                     {
                         "type": "text",
-                        "text": "Maximum 200 characters for the description"
+                        "text": "Maximum 200 characters for the description without making any mentions or use of information from the transcript"
                     },
                     {
                         "type": "text",
@@ -74,7 +74,8 @@ def is_audio_comprehensive(scene):
         payload['messages'][0]["content"].append({
             "type": "image_url",
             "image_url": {
-                "url": f"data:image/jpeg;base64,{base64_image}"
+                "url": f"data:image/jpeg;base64,{base64_image}",
+                "detail": "low"
             }
         })
     response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload).json()
