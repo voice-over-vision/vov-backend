@@ -7,7 +7,8 @@ Instructions on how to configure and run Voice-Over Vision backend
 - Git installed and configured on your machine
 - Python version: 3.11.8
 - Pip: 24.0
-  
+
+### Setup
 The first thing to do is to clone the repository:
 
 ```sh
