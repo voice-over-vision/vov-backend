@@ -2,11 +2,11 @@ from django.http import HttpResponse, JsonResponse
 from youtube_transcript_api import YouTubeTranscriptApi
 from pytube import YouTube
 import requests
-from winter_hackaton_backend.openai import is_audio_comprehensive
-from winter_hackaton_backend.process_video import find_silent_parts
-from winter_hackaton_backend.scene_data_extraction.time_decorator import timing_decorator
-from winter_hackaton_backend.scene_data_extraction.scene_data_extractor import get_data_by_scene
-from winter_hackaton_backend.utils import get_silent_parts_for_each_scenes, time_to_seconds
+from vov_backend.openai import is_audio_comprehensive
+from vov_backend.process_video import find_silent_parts
+from vov_backend.scene_data_extraction.time_decorator import timing_decorator
+from vov_backend.scene_data_extraction.scene_data_extractor import get_data_by_scene
+from vov_backend.utils import get_silent_parts_for_each_scenes, time_to_seconds
 import os
 import json
 

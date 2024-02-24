@@ -12,11 +12,6 @@ def seconds_to_time(seconds):
     sec = seconds % 60
     return f"{hours:02d}:{minutes:02d}:{sec:06.4f}"
 
-def encode_image(image_path):
-  with open(image_path, "rb") as image_file:
-    return base64.b64encode(image_file.read()).decode('utf-8')
-  
-
 def get_silent_parts_for_each_scenes(youtube_transcript, scenes, silent_parts, context_window = 3):
     for transcript in youtube_transcript:
         transcript['end'] = transcript['start'] + transcript['duration']

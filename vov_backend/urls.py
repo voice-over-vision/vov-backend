@@ -1,5 +1,5 @@
 """
-URL configuration for winter_hackaton_backend project.
+URL configuration for vov_backend project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from winter_hackaton_backend.views import get_audio_description, try_ngrok
+from vov_backend.views import get_audio_description, try_ngrok
 
 urlpatterns = [
     path('admin/', admin.site.urls),

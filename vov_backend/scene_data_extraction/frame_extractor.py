@@ -2,7 +2,7 @@ import cv2
 import os
 import numpy as np
 from scipy.signal import argrelextrema
-from winter_hackaton_backend.scene_data_extraction.time_decorator import timing_decorator
+from vov_backend.scene_data_extraction.time_decorator import timing_decorator
 
 # import Katna.config as config
 

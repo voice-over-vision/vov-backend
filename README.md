@@ -33,7 +33,7 @@ Then install the dependencies:
 While waiting for installation, create an environment file in the same folder that has settings.py:
 
 ```sh
-(env) cd winter_hackaton_backend
+(env) cd vov_backend
 (env) touch .env # On Windows use: cd . > .env
 ```
 Inside this file, it should contain:

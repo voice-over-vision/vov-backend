@@ -1,7 +1,7 @@
-from  winter_hackaton_backend.scene_data_extraction.scene_detector import get_scenes
-from winter_hackaton_backend.scene_data_extraction.frame_extractor import extract_keyframes
-from winter_hackaton_backend.scene_data_extraction.get_frames_position import get_frames_position
-from winter_hackaton_backend.scene_data_extraction.time_decorator import timing_decorator
+from  vov_backend.scene_data_extraction.scene_detector import get_scenes
+from vov_backend.scene_data_extraction.frame_extractor import extract_keyframes
+from vov_backend.scene_data_extraction.get_frames_position import get_frames_position
+from vov_backend.scene_data_extraction.time_decorator import timing_decorator
 import json
 
 video_path = "./videos/ed_ad.mp4"
@@ -27,7 +27,7 @@ def time_string_to_seconds(time_str):
 def get_transcripts_by_scene(scene_data, transcripts, context_window=3):
     for scene in scene_data:
         context_start = time_string_to_seconds(scene['timestamp_start']) - context_window
-        context_end = time_string_to_seconds(scene['timestamp_end']) - - context_window
+        context_end = time_string_to_seconds(scene['timestamp_end']) + context_window
         if not "transcripts" in scene:
             scene['transcripts'] = []
         for transcript in transcripts:

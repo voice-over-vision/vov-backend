@@ -1,7 +1,7 @@
 import cv2
 import glob
 import re
-from winter_hackaton_backend.scene_data_extraction.time_decorator import timing_decorator
+from vov_backend.scene_data_extraction.time_decorator import timing_decorator
 
 # Custom sort key function
 def sort_key(path):

@@ -1,5 +1,5 @@
 from scenedetect import SceneManager, open_video, AdaptiveDetector
-from winter_hackaton_backend.scene_data_extraction.time_decorator import timing_decorator
+from vov_backend.scene_data_extraction.time_decorator import timing_decorator
 
 @timing_decorator
 def get_scenes(video_path):
