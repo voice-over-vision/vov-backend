@@ -16,10 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from vov_backend.views import get_audio_description, try_ngrok
+from vov_backend.views import get_audio_description
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('get_audio_description/', get_audio_description, name='get_audio_description'),
-    path('ngrok/', try_ngrok, name='trying ngrok'),
 ]

@@ -1,3 +1,4 @@
+import os
 from  vov_backend.scene_data_extraction.scene_detector import get_scenes
 from vov_backend.scene_data_extraction.frame_extractor import extract_keyframes
 from vov_backend.scene_data_extraction.get_frames_position import get_frames_position
@@ -38,7 +39,11 @@ def get_transcripts_by_scene(scene_data, transcripts, context_window=3):
                 scene['transcripts'].append(transcript['text'])
     return scene_data
 
-def get_data_by_scene(video_path, keyframes_path, transcript):
+def get_data_by_scene(video_path, youtube_id, transcript):
+
+    keyframes_path = f'.keyframes/keyframes-{youtube_id}'
+    if not os.path.exists(keyframes_path):
+        os.makedirs(keyframes_path)
 
     scene_list = get_scenes(video_path)
 

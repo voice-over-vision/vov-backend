@@ -1,8 +1,15 @@
+import os
 import numpy as np
 from moviepy.editor import VideoFileClip
 from pathlib import Path
 
-def find_silent_parts(video_file, youtube_transcript, volume_threshold=0.1, silent_duration_threshold=0.1):
+from vov_backend.scene_data_extraction.time_decorator import timing_decorator
+from pytube import YouTube
+
+from vov_backend.utils import get_silent_parts_for_each_scenes
+
+@timing_decorator
+def find_silent_parts(video_file, youtube_transcript, scenes, volume_threshold=0.1, silent_duration_threshold=0.1):
     """
     Find silent parts in a video's audio track.
 
@@ -56,4 +63,13 @@ def find_silent_parts(video_file, youtube_transcript, volume_threshold=0.1, sile
         if(is_overlapping == False):
             silent_parts.append(low_volume)
                 
-    return silent_parts
+    get_silent_parts_for_each_scenes(youtube_transcript, scenes, silent_parts)
+
+@timing_decorator
+def get_video(youtube_id):
+    yt =  YouTube(f'http://youtube.com/watch?v={youtube_id}')
+    if not os.path.exists(f'./{yt.streams.first().default_filename}'):
+        print("#### Start downloading the video ####")
+        yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').first().download()
+        print(f"#### Download completed ####")
+    return os.path.abspath(f'./{yt.streams.first().default_filename}')

@@ -7,12 +7,15 @@ import json
 import re
 from openai import OpenAI
 
+from vov_backend.scene_data_extraction.time_decorator import timing_decorator
+
 env = environ.Env()
 environ.Env.read_env()
 api_key = env("OPENAI_API_KEY")
 
 client = OpenAI(api_key=api_key)
 
+@timing_decorator
 def is_audio_comprehensive(scene):
     with open('./input/messages.json', 'r') as file:
         input_messages = json.loads(file.read())
@@ -56,5 +59,6 @@ def is_audio_comprehensive(scene):
         is_comprehensive = is_comprehensive_match.group(1) == 'true' if is_comprehensive_match else False
         description = description_match.group(1) if description_match else ''
         output_message = {"is_comprehensive": is_comprehensive, "description": description}
+    print("#### Message from ChatGPT: #####")
     print(output_message)
     return output_message

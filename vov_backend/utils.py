@@ -12,7 +12,7 @@ def seconds_to_time(seconds):
     sec = seconds % 60
     return f"{hours:02d}:{minutes:02d}:{sec:06.4f}"
 
-def get_silent_parts_for_each_scenes(youtube_transcript, scenes, silent_parts, context_window = 3):
+def get_silent_parts_for_each_scenes(youtube_transcript, scenes, silent_parts):
     for transcript in youtube_transcript:
         transcript['end'] = transcript['start'] + transcript['duration']
         for scene in scenes:
