@@ -28,7 +28,7 @@ def get_audio_description(request):
                 video_path = os.path.abspath(f'./{yt.streams.first().default_filename}')
             
             # get scene data 
-            keyframes_path = f'./keyframes-{youtube_id}'
+            keyframes_path = f'.keyframes/keyframes-{youtube_id}'
             if not os.path.exists(keyframes_path):
                 os.makedirs(keyframes_path)
 
