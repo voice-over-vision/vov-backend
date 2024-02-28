@@ -92,3 +92,11 @@ def is_audio_comprehensive(scene):
     logger.debug("#### Message from ChatGPT: #####")
     logger.debug(output_message)
     return output_message
+
+def description_to_speech(description, voice="alloy"):
+    response = client.audio.speech.create(
+        model="tts-1",
+        voice=voice,
+        input=description
+    )
+    return response.content

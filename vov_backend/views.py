@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from youtube_transcript_api import YouTubeTranscriptApi
-from vov_backend.openai import is_audio_comprehensive
+from vov_backend.openai import description_to_speech, is_audio_comprehensive
 from vov_backend.process_video import find_silent_parts, get_video
 from vov_backend.scene_data_extraction.time_decorator import timing_decorator
 from vov_backend.scene_data_extraction.scene_data_extractor import get_data_by_scene
@@ -41,7 +41,8 @@ def get_audio_description(request):
                 if(index > 9):
                     break
                 if(message['is_comprehensive'] == False):
-                    audio_descriptions.append({"description": message['description'],
+                    audio_description = description_to_speech(message['description'])
+                    audio_descriptions.append({"audio_description": audio_description,
                                             "start_timestamp": time_to_seconds(scene['start_timestamp'])})
 
             with open(output_dir, 'w') as file:
