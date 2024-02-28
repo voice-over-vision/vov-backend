@@ -1,4 +1,7 @@
 import time
+import logging
+
+logger = logging.getLogger(__name__)
 
 def timing_decorator(func):
     """Decorator to measure the duration of a function call."""
@@ -7,6 +10,6 @@ def timing_decorator(func):
         result = func(*args, **kwargs)  # Call the actual function
         end_time = time.time()  # Record end time
         duration = end_time - start_time  # Calculate duration
-        print(f"{func.__name__} ran in: {duration} seconds")
+        logger.info(f"{func.__name__} ran in: {duration:.4f} seconds")
         return result
     return wrapper
