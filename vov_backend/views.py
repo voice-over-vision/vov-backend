@@ -48,7 +48,7 @@ def get_audio_description(request):
                 json.dump(audio_descriptions, file, indent=4) 
             
             logger.info("#### Request completed ####")
-            return HttpResponse({ 'data' : audio_descriptions}, content_type="application/json")
+            return JsonResponse({ 'data' : audio_descriptions}, safe=False)
         else:
             error = 'youtubeID parameter is missing in the request'
             error_response = {'error': error }
