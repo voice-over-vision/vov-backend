@@ -24,10 +24,10 @@ def get_silent_parts_for_each_scenes(youtube_transcript, scenes, silent_parts):
                 scene['silent_parts'].append(silent_part)
             if(len(scene['silent_parts']) > 0):
               scene['silent_parts'].sort(key=lambda silent_part: silent_part['duration'], reverse=True)
-              scene['start_timestamp'] = seconds_to_time(scene['silent_parts'][0]['end'])
+              scene['start_timestamp'] = time_to_seconds(scene['silent_parts'][0]['end'])
             else:
               #if(scene['transcripts'] <= 0):
-              scene['start_timestamp'] = scene['timestamp_start']
+              scene['start_timestamp'] = time_to_seconds(scene['timestamp_start'])
 
 def mp3_to_base64(file_path):
   fin = open(file_path, "rb")

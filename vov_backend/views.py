@@ -43,14 +43,14 @@ def get_audio_description(request):
                     break
                 if(message['is_comprehensive'] == False):
                     audio_description, audio_path = description_to_speech(message['description'], youtube_id, index)
-                    start_timestamp = time_to_seconds(scene['start_timestamp'])
 
                     response.append({"audio_description": audio_description,
-                                    "start_timestamp": start_timestamp
+                                    "start_timestamp": scene['start_timestamp']
                     })
+                    
                     audio_descriptions.append({"audio_path" : audio_path,
                                                "description": message['description'],
-                                               "start_timestamp": start_timestamp
+                                               "start_timestamp": scene['start_timestamp']
                     })
 
             with open(output_dir, 'w') as file:
