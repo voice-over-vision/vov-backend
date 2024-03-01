@@ -4,7 +4,7 @@ from vov_backend.openai import description_to_speech, is_audio_comprehensive
 from vov_backend.process_video import find_silent_parts, get_video
 from vov_backend.scene_data_extraction.time_decorator import timing_decorator
 from vov_backend.scene_data_extraction.scene_data_extractor import get_data_by_scene
-from vov_backend.utils import mp3_to_base64, time_to_seconds
+from vov_backend.utils import mp3_to_base64
 import os
 import json
 import logging

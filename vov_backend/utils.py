@@ -5,13 +5,6 @@ def time_to_seconds(time_str):
     h, m, s = time_str.split(':')
     return int(h) * 3600 + int(m) * 60 + float(s)
 
-def seconds_to_time(seconds):
-    """Function to convert seconds into HH:MM:SS.SSSS format"""
-    hours = int(seconds // 3600)
-    minutes = int((seconds % 3600) // 60)
-    sec = seconds % 60
-    return f"{hours:02d}:{minutes:02d}:{sec:06.4f}"
-
 def get_silent_parts_for_each_scenes(youtube_transcript, scenes, silent_parts):
     for transcript in youtube_transcript:
         transcript['end'] = transcript['start'] + transcript['duration']
