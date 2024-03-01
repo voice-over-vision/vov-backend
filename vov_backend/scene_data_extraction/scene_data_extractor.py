@@ -41,7 +41,7 @@ def get_transcripts_by_scene(scene_data, transcripts, context_window=3):
 
 def get_data_by_scene(video_path, youtube_id, transcript):
 
-    keyframes_path = f'.keyframes/keyframes-{youtube_id}'
+    keyframes_path = f'output/keyframes/keyframes-{youtube_id}'
     if not os.path.exists(keyframes_path):
         os.makedirs(keyframes_path)
 

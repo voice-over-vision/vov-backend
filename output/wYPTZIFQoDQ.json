@@ -1,34 +1,22 @@
 [
     {
-        "description": "Images are blurred; text overlay reflects challenges blind individuals face in capturing daily life.",
+        "audio_path": "output/audios/audios-wYPTZIFQoDQ\\audio-scene-0.mp3",
+        "description": "Blurred images of text about capturing life with low vision, and a hint of a person and scenes.",
         "start_timestamp": 7.424
     },
     {
-        "description": "Man with beard smiling, taking a selfie in a park.",
-        "start_timestamp": 15.639
+        "audio_path": "output/audios/audios-wYPTZIFQoDQ\\audio-scene-1.mp3",
+        "description": "A man smiling in a park during dusk.",
+        "start_timestamp": 13.639
     },
     {
-        "description": "blurry image of someone cooking, details indiscernible.",
+        "audio_path": "output/audios/audios-wYPTZIFQoDQ\\audio-scene-2.mp3",
+        "description": "Blurry images, content indiscernible.",
         "start_timestamp": 16.016
     },
     {
-        "description": "Blurry images of a dog's face.",
+        "audio_path": "output/audios/audios-wYPTZIFQoDQ\\audio-scene-3.mp3",
+        "description": "Blurred image of a dog looking towards the camera",
         "start_timestamp": 17.226
-    },
-    {
-        "description": "A blurred image with indistinguishable details.",
-        "start_timestamp": 18.018
-    },
-    {
-        "description": "Image is too blurry to identify any details or context.",
-        "start_timestamp": 19.853
-    },
-    {
-        "description": "Blurred images with indiscernible content.",
-        "start_timestamp": 20.771
-    },
-    {
-        "description": "A blurred view of a birthday celebration with a lit cake.",
-        "start_timestamp": 25.442
     }
 ]

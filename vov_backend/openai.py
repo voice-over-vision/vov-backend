@@ -1,4 +1,5 @@
 import base64
+import os
 import environ
 from PIL import Image
 import io
@@ -93,10 +94,18 @@ def is_audio_comprehensive(scene):
     logger.debug(output_message)
     return output_message
 
-def description_to_speech(description, voice="alloy"):
+@timing_decorator
+def description_to_speech(description, youtube_id, scene_id, voice="alloy"):
+    audio_description_path = f'output/audios/audios-{youtube_id}'
+    if not os.path.exists(audio_description_path):
+        os.makedirs(audio_description_path)
+
     response = client.audio.speech.create(
         model="tts-1",
         voice=voice,
         input=description
     )
-    return response.content
+    audio_name = f'audio-scene-{scene_id}.mp3'
+    audio_path = os.path.join(audio_description_path, audio_name)
+    response.write_to_file(audio_path)
+    return response.content, audio_path

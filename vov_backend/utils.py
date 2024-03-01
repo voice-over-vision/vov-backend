@@ -28,3 +28,12 @@ def get_silent_parts_for_each_scenes(youtube_transcript, scenes, silent_parts):
             else:
               #if(scene['transcripts'] <= 0):
               scene['start_timestamp'] = scene['timestamp_start']
+
+def mp3_to_base64(file_path):
+  fin = open(file_path, "rb")
+  binary_data = fin.read()
+  fin.close()
+
+  # encode binary to base64 string 
+  b64_data = base64.b64encode(binary_data)
+  return b64_data.decode('utf-8')

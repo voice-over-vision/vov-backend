@@ -4,7 +4,7 @@ from vov_backend.openai import description_to_speech, is_audio_comprehensive
 from vov_backend.process_video import find_silent_parts, get_video
 from vov_backend.scene_data_extraction.time_decorator import timing_decorator
 from vov_backend.scene_data_extraction.scene_data_extractor import get_data_by_scene
-from vov_backend.utils import time_to_seconds
+from vov_backend.utils import mp3_to_base64, time_to_seconds
 import os
 import json
 import logging
@@ -35,21 +35,29 @@ def get_audio_description(request):
 
             # get audio descriptions
             logger.info("#### Communication with openai started ####")
-            audio_descriptions = [] 
+            response = [] 
+            audio_descriptions = []
             for index, scene in enumerate(scenes):
                 message = is_audio_comprehensive(scene)
-                if(index > 9):
+                if(index > 3):
                     break
                 if(message['is_comprehensive'] == False):
-                    audio_description = description_to_speech(message['description'])
-                    audio_descriptions.append({"audio_description": audio_description,
-                                            "start_timestamp": time_to_seconds(scene['start_timestamp'])})
+                    audio_description, audio_path = description_to_speech(message['description'], youtube_id, index)
+                    start_timestamp = time_to_seconds(scene['start_timestamp'])
+
+                    response.append({"audio_description": audio_description,
+                                    "start_timestamp": start_timestamp
+                    })
+                    audio_descriptions.append({"audio_path" : audio_path,
+                                               "description": message['description'],
+                                               "start_timestamp": start_timestamp
+                    })
 
             with open(output_dir, 'w') as file:
                 json.dump(audio_descriptions, file, indent=4) 
             
             logger.info("#### Request completed ####")
-            return JsonResponse({ 'data' : audio_descriptions}, safe=False)
+            return JsonResponse({ 'data' : response}, safe=False)
         else:
             error = 'youtubeID parameter is missing in the request'
             error_response = {'error': error }
@@ -58,5 +66,11 @@ def get_audio_description(request):
     else:
         logger.info("#### Video already processed! ####")
         with open(output_dir, 'r') as file:
-            data = json.load(file)
-        return JsonResponse({ "data" : data}, safe=False)
+            audio_descriptions = json.load(file)
+        
+        response = []
+        for audio_description in audio_descriptions:
+            response.append({'start_timestamp': audio_description['start_timestamp'],
+                             'audio_description': mp3_to_base64(audio_description['audio_path'])
+            })
+        return JsonResponse({ "data" : response}, safe=False)
