@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -149,3 +150,5 @@ LOGGING = {
         "level": "DEBUG",
     },
 }
+
+ASGI_APPLICATION = 'vov_backend.asgi.application'
