@@ -138,9 +138,14 @@ LOGGING = {
             'level': 'INFO',
             "class": "logging.StreamHandler",
         },
+        "file": {
+            "level": "INFO",
+            "class": "logging.FileHandler",
+            "filename": "./debug/debug.log",
+        }
     },
     "root": {
-        "handlers": ["console"],
+        "handlers": ["console", "file"],
         "level": "DEBUG",
     },
 }
