@@ -1,0 +1,6 @@
+# Now you will be given the complete description of the previous section of the video (section number {section_number}).
+# This complete description was outputted by you in another conversation. 
+# This description aimed to capture the complete meaning of the previous section of the video. 
+# Note any significant changes that happened from the previous scene and the current.
+# Start of complete description of previous section:
+{complete_description}

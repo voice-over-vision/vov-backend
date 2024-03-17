@@ -1,0 +1,2 @@
+# Now you will be given three to five relevant images of this section of the video (section number {section_number}).
+# Note the setting, objects, characters, actions, and overall meaning of the images.

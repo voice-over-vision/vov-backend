@@ -1,0 +1,8 @@
+# Now you will be given if the narration was necessary in the previous section of the video (section number {section_number}) and what was the narration.
+# Consider that if the narration was necessary, it was narrated out loud. 
+# This narration aimed to give blind people the critical information from the image that was needed to understand the complete meaning of the previous section of the video.
+# Note if it was narrated and what was narrated.
+# Start of information on narration:
+Narrarion {narrat_necessary} necessary
+# Start of narration:
+{narration}

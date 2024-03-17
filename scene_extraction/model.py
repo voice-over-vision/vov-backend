@@ -1,26 +1,11 @@
-import cv2
-import os
-import numpy as np
-from scipy.signal import argrelextrema
-from vov_backend.scene_data_extraction.time_decorator import timing_decorator
 
-# import Katna.config as config
-
-@timing_decorator
-def extract_keyframes(input_video, output_folder):
-
-    vd = FrameExtractor()
-    imgs = vd.extract_candidate_frames(input_video)
-    # logging.info(f'Images {imgs}')
-    for counter, img in enumerate(imgs):
-        vd.save_frame_to_disk(
-            img,
-            file_path=os.path.join(output_folder),
-            file_name= str(counter),
-            file_ext=".bmp",
-        )
-        
 # Class to hold information about each frame
+import cv2
+import numpy as np
+import os
+from scipy.signal import argrelextrema
+
+
 class Frame:
     """Class for storing frame ref
     """
@@ -167,7 +152,7 @@ class FrameExtractor(object):
 
         for frame_index in frame_indexes:
             extracted_key_frames.append(frames[frame_index - 1].frame)
-        return extracted_key_frames
+        return extracted_key_frames, frame_indexes
 
     def __smooth__(self, x, window_len, window=Configs.window_type):
         """smooth the data using a window with requested size.
@@ -232,6 +217,8 @@ class FrameExtractor(object):
         """
 
         extracted_candidate_key_frames = []
+        extracted_frames_indices = []
+        total_number_of_frames = 0
 
         # Get all frames from video in chunks using python Generators
         frame_extractor_from_video_generator = self.__extract_all_frames_from_video__(
@@ -240,19 +227,24 @@ class FrameExtractor(object):
         
         # Loop over every frame in the frame extractor generator object and calculate the
         # local maxima of frames
-        for frames, frame_diffs in frame_extractor_from_video_generator:
+        for i, (frames, frame_diffs) in enumerate(frame_extractor_from_video_generator):
             extracted_candidate_key_frames_chunk = []
+            total_number_of_frames += len(frames)
             if self.USE_LOCAL_MAXIMA:
 
                 # Getting the frame with maximum frame difference
-                extracted_candidate_key_frames_chunk = self.__get_frames_in_local_maxima__(
+                extracted_candidate_key_frames_chunk, frame_indexes = self.__get_frames_in_local_maxima__(
                     frames, frame_diffs
                 )
                 extracted_candidate_key_frames.extend(
                     extracted_candidate_key_frames_chunk
                 )
+                
+                # !!! Improve to work with numpy array
+                frame_indexes = [x + i * self.max_frames_in_chunk for x in frame_indexes]
+                extracted_frames_indices.extend(frame_indexes)
 
-        return extracted_candidate_key_frames
+        return extracted_candidate_key_frames, extracted_frames_indices, total_number_of_frames
 
     def save_frame_to_disk(self, frame, file_path, file_name, file_ext):
         """saves an in-memory numpy image array on drive.

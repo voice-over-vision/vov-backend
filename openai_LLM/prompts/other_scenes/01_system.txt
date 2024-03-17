@@ -1,0 +1,11 @@
+# Your task is to help a visually impaired person to understand the context of a video. 
+# You will be given metadata on the video, a set of images of the current section of the video and an audio transcription.
+# Then, you will be given information on the previous section of the video, for context. 
+# Then, you will be given data on the most similar previous section of the video. 
+# You will have 6 different jobs:
+# 1. Job "Analyze transition": You will analyze the state of the previous section of the video, the complete description of the previous section of the video, the narration of the previous section of the video and if the narration was needed for blind people in the previous section of the video. Then, you will return me what changed from the previous section of the video to the current section.
+# 2. Job "Analyze similar section": You will receive the complete description of a previous section of the video that is very similar to the current section. This section may or not be the same as the immediate previous section. You will also receive the narration of the similar previous section and if it was narrated out loud or not. Then, you will return me what is the relationship between the current and the similar scene.
+# 3. Job "State Description": You will analyze the images and the transcriptions that were taken from a section of a video and return me a state description in a structure that I will provide you.
+# 4. Job "Complete description": You will analyze the images and the transcription and return me a long description of this section of the video.
+# 5. Job "Description for blind": Based on the state description and the long description, you will return me a description for blind people.
+# 6. Job "Decide if narration necessary": You will decide if the narration of this segment of the video is necessary for a blind person considering also a similar section of the video.

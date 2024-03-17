@@ -1,0 +1,4 @@
+# Now you will be given the audio transcript of this section of the video (section number {section_number}). 
+# Note the meaning, phrasing, probable intonation and source of the voice of the transcript and relate it to the images that were sent previousely.
+# Start of transcript:
+{transcript}
