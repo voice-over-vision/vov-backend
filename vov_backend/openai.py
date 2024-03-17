@@ -7,9 +7,11 @@ import re
 import json
 import re
 from openai import OpenAI
+from vov_backend.model import ChatGptResponse
 
 from vov_backend.scene_data_extraction.time_decorator import timing_decorator
 import logging
+
 
 logger = logging.getLogger(__name__)
 env = environ.Env()
@@ -66,7 +68,7 @@ def is_audio_comprehensive(scene):
     - scene : Object with at least images and audio transcripts
 
     Returns:
-    - Json as follow : { 'is_comprehensive':  bool, 'description': string } 
+    - ChatGptResponse 
     """
 
     with open('./input/messages.json', 'r') as file:
@@ -92,20 +94,15 @@ def is_audio_comprehensive(scene):
         
     logger.debug("#### Message from ChatGPT: #####")
     logger.debug(output_message)
-    return output_message
+
+    return ChatGptResponse(description = output_message['description'], 
+                           is_comprehensive = output_message['is_comprehensive'])
 
 @timing_decorator
-def description_to_speech(description, youtube_id, scene_id, voice="alloy"):
-    audio_description_path = f'output/audios/audios-{youtube_id}'
-    if not os.path.exists(audio_description_path):
-        os.makedirs(audio_description_path)
-
+def description_to_speech(description, voice="alloy"):
     response = client.audio.speech.create(
         model="tts-1",
         voice=voice,
         input=description
     )
-    audio_name = f'audio-scene-{scene_id}.mp3'
-    audio_path = os.path.join(audio_description_path, audio_name)
-    response.write_to_file(audio_path)
-    return response.content, audio_path
+    return base64.b64encode(response.content).decode('utf-8')

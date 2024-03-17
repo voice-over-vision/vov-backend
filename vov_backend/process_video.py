@@ -66,7 +66,8 @@ def find_silent_parts(video_file, youtube_transcript, scenes, volume_threshold=0
         if(is_overlapping == False):
             silent_parts.append(low_volume)
                 
-    get_silent_parts_for_each_scenes(youtube_transcript, scenes, silent_parts)
+    pause_moments = get_silent_parts_for_each_scenes(youtube_transcript, scenes, silent_parts)
+    return pause_moments
 
 @timing_decorator
 def get_video(youtube_id):
