@@ -1,0 +1,44 @@
+[
+    {
+        "description": "Empty kitchen, retro style, no people.",
+        "start_timestamp": 1.2058730158730158,
+        "action": "play",
+        "video_speed": 0.30893091181426696,
+        "silence_duration": 0.673469387755102
+    },
+    {
+        "description": "Person stands in kitchen, talking on phone, discussing a delay.",
+        "start_timestamp": 4.159387755102041,
+        "action": "pause",
+        "video_speed": 1,
+        "silence_duration": 0.4341043083900227
+    },
+    {
+        "description": "Man sits at table, flips object, TV in background, clock on wall.",
+        "start_timestamp": 20.772494331065758,
+        "action": "pause",
+        "video_speed": 1,
+        "silence_duration": 0.673469387755102
+    },
+    {
+        "description": "Man plays drums energetically in a dark space.",
+        "start_timestamp": 30.708333333333332,
+        "action": "pause",
+        "video_speed": 1,
+        "silence_duration": 0
+    },
+    {
+        "description": "Close-up: man's focused face; foot presses pedal; drumsticks striking drums.",
+        "start_timestamp": 39.708333333333336,
+        "action": "pause",
+        "video_speed": 1,
+        "silence_duration": 0
+    },
+    {
+        "description": "Man plays drums; shifts to him stretching indoors, likely at home.",
+        "start_timestamp": 55.41705215419501,
+        "action": "pause",
+        "video_speed": 1,
+        "silence_duration": 0.673469387755102
+    }
+]

@@ -68,7 +68,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     else:
                         similar_scene_id = chroma.get_most_similar_scene(scene)
                         print(similar_scene_id)
-                        message = prompt_dir.get_prompt_scene(scene, data_by_scene[curr_scene_id-1], 
+                        message = prompt_dir.get_prompt_scene(scene, data_by_scene[:curr_scene_id], 
                                                               data_by_scene[similar_scene_id])
 
                     result = json.loads(openai_handler.get_openai_response(message))
