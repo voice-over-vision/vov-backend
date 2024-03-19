@@ -31,7 +31,7 @@ class SilenceDetection():
 
 
     def detect_silence_periods(self):
-        is_silent = self.volume < self.silence_threshold
+        is_silent = self.volume_smoothed < self.silence_threshold
 
         # Find changes in silence state
         change_points = np.diff(is_silent.astype(int))
