@@ -62,6 +62,7 @@ class SilenceDetection():
 
         if scene_mask.any():
             longest_silence_idx = np.argmax(self.silence_durations[scene_mask])
-            return self.silence_starts[scene_mask][longest_silence_idx]
+            return self.silence_starts[scene_mask][longest_silence_idx], \
+                self.silence_durations[longest_silence_idx]
         else:
-            return scene_start
+            return scene_start, 0

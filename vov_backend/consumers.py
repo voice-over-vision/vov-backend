@@ -8,6 +8,7 @@ from openai_LLM.model import PromptDirector
 from openai_LLM.view import OpenAIHandler
 from scene_extraction.views import get_data_by_scene
 
+from silence_detection.sound import get_audio_duration_from_b64
 from vov_backend.process_video import get_video
 from vov_backend.model import EventTypes
 import logging
@@ -77,19 +78,32 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                     if(result['narration_necessary']):
                         audio_base64 = openai_handler.description_to_speech(result['description_blind'])
+                        audio_duration = get_audio_duration_from_b64(audio_base64)
+
+                        if scene['silence_duration']/audio_duration > 0.2:
+                            action = 'play'
+                            video_speed = min(scene['silence_duration'] / audio_duration , 1)
+                        else: 
+                            action = 'pause'
+                            video_speed = 1
 
                         await self.send(text_data=json.dumps({
                             "event": EventTypes.AUDIO_DESCRIPTION,
                             "id" : scene["scene_id"],
+                            "action": action,
+                            "video_speed": video_speed,
                             "start_timestamp": scene['best_narration_start'],
-                            "audio_description": audio_base64
+                            "audio_description": audio_base64,
                         }))
 
                         logger.info("Message send!")
 
                         audio_descriptions.append({
                             "description": result['description_blind'],
-                            "start_timestamp": scene['best_narration_start']
+                            "start_timestamp": scene['best_narration_start'],
+                            "action": action,
+                            "video_speed": video_speed,
+                            "silence_duration": scene['silence_duration'] ## Debug only
                         })
 
                 with open(output_path, 'w') as file:
@@ -110,6 +124,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     await self.send(text_data=json.dumps({
                         "event": EventTypes.AUDIO_DESCRIPTION,
                         "id": index,
+                        "action": audio_description['action'],
+                        "video_speed": audio_description['video_speed'],
                         'start_timestamp': audio_description['start_timestamp'],
                         'audio_description': openai_handler.\
                             description_to_speech(audio_description['description']),

@@ -1,4 +1,8 @@
+import base64
+import os
+import tempfile
 import numpy as np
+from moviepy.editor import AudioFileClip
 
 # Function to calculate moving average
 def moving_average(data, window_size):
@@ -29,3 +33,11 @@ def detect_silence_periods(volume, silence_threshold, audio_fs, min_silence_dura
     ]
 
     return silence_periods
+
+def get_audio_duration_from_b64(audio_base64):
+    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
+    temp_file.write(base64.b64decode(audio_base64))
+    temp_file.close()
+
+    audio_clip = AudioFileClip(temp_file.name)
+    return audio_clip.duration

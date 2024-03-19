@@ -73,7 +73,8 @@ def get_data_by_scene(video_path, video_captions, caption_context_window_seconds
 
 
         # Getting the silences
-        scene_processed['best_narration_start'] = silence_detection.get_silence_for_scene(scene_processed)
+        scene_processed['best_narration_start'], scene_processed['silence_duration'] =  \
+            silence_detection.get_silence_for_scene(scene_processed)
 
         scene_processed['scene_id'] = index
         data_by_scene.append(scene_processed)
