@@ -22,6 +22,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.accept()
     async def disconnect(self, close_code):
         pass
+    async def sending_message(self, text_data):
+        await self.send(text_data=json.dumps(text_data))
+        await asyncio.sleep(0.2) # giving enough time to send message properly
+
     @timing_decorator
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
@@ -40,11 +44,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 # get transcription
                 logger.info("#### Starting getting the transcript ####")
                 video_captions, audio_path = openai_handler.get_transcript(video_path, youtube_id)
-                
+
                 # get scene data 
                 logger.info("#### Getting the scenes ####")
                 data_by_scene = get_data_by_scene(video_path, video_captions)
-                
+
                 # get audio descriptions
                 logger.info("#### Communication with openai started ####")
                 audio_descriptions = []
@@ -87,14 +91,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
                             action = 'pause'
                             video_speed = 1
 
-                        await self.send(text_data=json.dumps({
+                        await self.sending_message({
                             "event": EventTypes.AUDIO_DESCRIPTION,
                             "id" : scene["scene_id"],
                             "action": action,
                             "video_speed": video_speed,
                             "start_timestamp": scene['best_narration_start'],
                             "audio_description": audio_base64,
-                        }))
+                        })
 
                         logger.info("Message send!")
 
@@ -121,7 +125,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     audio_descriptions = json.load(file)
 
                 for index, audio_description in enumerate(audio_descriptions):
-                    await self.send(text_data=json.dumps({
+                    await self.sending_message({
                         "event": EventTypes.AUDIO_DESCRIPTION,
                         "id": index,
                         "action": audio_description['action'],
@@ -129,6 +133,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                         'start_timestamp': audio_description['start_timestamp'],
                         'audio_description': openai_handler.\
                             description_to_speech(audio_description['description']),
-                    }))
+                    })
+
                 logger.info("#### Request completed ####")
                 await self.close()
