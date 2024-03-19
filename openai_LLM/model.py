@@ -106,17 +106,32 @@ class PromptDirector():
 
         return pb.get_prompt()
     
-    def get_prompt_scene(self, scene, previous_scene, similar_scene):
+    def get_prompt_scene(self, scene, previous_scenes, similar_scene):
 
         curr_scene_id = scene['scene_id']
         curr_images = list(map(convert_img_b64, scene['scene_filtered_frames'])) 
         curr_transcript = ' '.join(scene['captions'])
 
-        scene_id_prev = previous_scene['scene_id']
-        state_prev = previous_scene['state']
-        desc_complete_prev = previous_scene['complete_description']
-        desc_blind_prev = previous_scene['description_blind']
-        narrat_necessary_prev = previous_scene['narration_necessary'] # Check what is being accessed here
+        previous_states = ''
+        previous_descriptions = ''
+        previous_narrations = ''
+
+        for scene in previous_scenes:
+            section_num = "\nSection number: " + f"{scene['scene_id']}"
+            environment = '\nEnvironment: ' + scene['state']['environment']
+            characters = '\nPeople: ' + scene['state']['characters']
+
+            previous_states += (section_num + environment + characters)
+            
+            complete_description = '\nComplete description: '+ scene['complete_description']
+            
+            previous_descriptions += (section_num + complete_description)
+
+            narration = '\nDescription for blind people: '+ scene['description_blind']
+            was_narration_needed = "\nDescription was narrated" if scene['narration_necessary'] == 'True' else "Description was not needed" 
+
+            previous_narrations += (section_num + narration + was_narration_needed)
+
 
         scene_id_similar = similar_scene['scene_id']
         state_similar = similar_scene['state']
@@ -130,9 +145,12 @@ class PromptDirector():
         pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/02_metadata.txt')), {'metadata': self.metadata})
         pb.append_img_msg(read_file( os.path.join(current_dir,'prompts/other_scenes/03_curr_img_intro.txt')), {'section_number': str(curr_scene_id)}, curr_images)
         pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/04_transcript.txt')), {'section_number': str(curr_scene_id), 'transcript':curr_transcript})
-        pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/05_state_prev.txt')), {'state': str(state_prev)})
-        pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/06_comp_desc_prev.txt')), {'section_number': str(scene_id_prev), 'complete_description':desc_complete_prev})
-        pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/07_narrat_prev.txt')), {'section_number': str(scene_id_prev), 'narrat_necessary':narrat_necessary_prev, 'narration':desc_blind_prev})
+
+        pb.append_text_msg(read_file(os.path.join(current_dir,'./prompts/other_scenes/05_state_prev.txt')), {'state': str(previous_states)})
+        pb.append_text_msg(read_file(os.path.join(current_dir,'./prompts/other_scenes/06_comp_desc_prev.txt')), {'complete_description':previous_descriptions})
+        pb.append_text_msg(read_file(os.path.join(current_dir,'./prompts/other_scenes/07_narrat_prev.txt')), {'narration':previous_narrations})
+
+        
         pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/08_comp_desc_similar.txt')), {'section_number': str(scene_id_similar), 'complete_description':desc_complete_similar})
         pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/09_narrat_similar.txt')), {'section_number': str(scene_id_similar), 'narrat_necessary':narrat_necessary_similar, 'narration':desc_blind_similar})
         pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/10_get_json.txt')), {})
