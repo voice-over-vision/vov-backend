@@ -1,18 +1,30 @@
 [
     {
-        "description": "A boy in a snowy field moves to hold a fox; a gentle horse looks on.",
-        "start_timestamp": 7.158163265306122
+        "description": "White horse, boy, fox in snowy setting, evolving interaction.",
+        "start_timestamp": 7.158163265306122,
+        "action": "play",
+        "video_speed": 0.6382396534032607,
+        "silence_duration": 2.2848979591836733
     },
     {
-        "description": "A boy stands in the snow, cradling a fox in his arms, near a sitting spherical creature. A gentle white horse rests close by.",
-        "start_timestamp": 21.36784580498866
+        "description": "Boy comforts fox, approaches lying horse",
+        "start_timestamp": 21.36784580498866,
+        "action": "pause",
+        "video_speed": 1,
+        "silence_duration": 0.3892517006802721
     },
     {
-        "description": "A boy kneels in snow facing a large white horse, with a small fox also present looking at the horse.",
-        "start_timestamp": 34.77657596371882
+        "description": "Boy kneels by horse, fox observes.",
+        "start_timestamp": 34.77657596371882,
+        "action": "play",
+        "video_speed": 0.22668214205113327,
+        "silence_duration": 0.47829931972789114
     },
     {
-        "description": "A boy stands near a winged white horse and fox by water. Trees surround, and snow covers the ground.",
-        "start_timestamp": 52.37526077097505
+        "description": "Boy, fox, winged horse",
+        "start_timestamp": 52.37526077097505,
+        "action": "play",
+        "video_speed": 0.25552163122466837,
+        "silence_duration": 0.3245124716553288
     }
 ]
