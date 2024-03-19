@@ -1,0 +1,6 @@
+# Now you will be given the complete description of the most similar section of the video (section number {section_number}).
+# This complete description was outputted by you in another conversation.
+# This description aimed to capture the complete meaning of the most similar section of the video (section number {section_number}).
+# Note the relationship between the most similar section of the video and the current one. 
+# Start of description the section most similar to the current section of the video:
+{complete_description}

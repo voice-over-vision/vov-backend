@@ -1,0 +1,5 @@
+# Now you will be given the state of all the previous sections of the video. 
+# These states where outputted by you in previous conversations. It contains information on the environment and on the characters present on the video at each section of the video until the present one.
+# Note any significant changes that happened between the video history and the current section
+# Start of state information of all previous sections of the video until now:
+{state}

@@ -1,0 +1,3 @@
+# Now you will be given the metadata of the video. The following text is metadata of the video:
+# Start of metadata:
+{metadata}

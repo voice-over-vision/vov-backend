@@ -1,0 +1,86 @@
+[
+    {
+        "description": "Title screen and weary person with a cigarette.",
+        "start_timestamp": 5.360113378684807,
+        "action": "play",
+        "video_speed": 1,
+        "silence_duration": 5.36
+    },
+    {
+        "description": "Tired student with book and calculator, doodling.",
+        "start_timestamp": 7.799659863945578,
+        "action": "play",
+        "video_speed": 0.2950843614281871,
+        "silence_duration": 0.870498866213152
+    },
+    {
+        "description": "Person in red makes expressive gestures, laptop screen visible.",
+        "start_timestamp": 19.227551020408164,
+        "action": "play",
+        "video_speed": 0.22263398112868335,
+        "silence_duration": 0.870498866213152
+    },
+    {
+        "description": "Close-up of hands typing, eyes reading an article on a laptop about staying awake.",
+        "start_timestamp": 27.043832199546486,
+        "action": "play",
+        "video_speed": 0.20725800047645518,
+        "silence_duration": 1.0653061224489795
+    },
+    {
+        "description": "Web pages flash by; person types, yawns, and stretches, in a well-lit room.",
+        "start_timestamp": 33.254716553287984,
+        "action": "play",
+        "video_speed": 0.20547143588618244,
+        "silence_duration": 0.8917460317460317
+    },
+    {
+        "description": "Red-clad person hurries down stairs, indicating swift motion.",
+        "start_timestamp": 43.168124999999996,
+        "action": "pause",
+        "video_speed": 1,
+        "silence_duration": 0
+    },
+    {
+        "description": "Hands fill jar with coffee beans on a table.",
+        "start_timestamp": 57.44630385487528,
+        "action": "play",
+        "video_speed": 0.3254547561116904,
+        "silence_duration": 0.8917460317460317
+    },
+    {
+        "description": "Hands grind coffee, scoop grounds into a yellow pot.",
+        "start_timestamp": 61.89516666666666,
+        "action": "pause",
+        "video_speed": 1,
+        "silence_duration": 0
+    },
+    {
+        "description": "Hands prepare a moka pot, twist stove knob, flame ignites.",
+        "start_timestamp": 71.196125,
+        "action": "pause",
+        "video_speed": 1,
+        "silence_duration": 0
+    },
+    {
+        "description": "A moka pot brews; coffee fills a cup; background blur with red hue suggests a person nearby.",
+        "start_timestamp": 81.49808333333333,
+        "action": "pause",
+        "video_speed": 1,
+        "silence_duration": 0
+    },
+    {
+        "description": "Person in red examines a coffee bag, showing front and back details.",
+        "start_timestamp": 104.2840589569161,
+        "action": "play",
+        "video_speed": 1,
+        "silence_duration": 5.36
+    },
+    {
+        "description": "Hands holding a labeled coffee bag; reads 'Caffeine Free, 100% Arabica.'",
+        "start_timestamp": 108.74437641723355,
+        "action": "play",
+        "video_speed": 1,
+        "silence_duration": 5.36
+    }
+]

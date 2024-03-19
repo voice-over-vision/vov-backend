@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'channels',
+    'chroma_db',
+    'openai_LLM',
+    'scene_extraction',
+    'silence_detection',
     'vov_backend'
 ]
 
