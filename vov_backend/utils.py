@@ -48,3 +48,7 @@ def convert_img_b64(img):
 def create_directory(directory_path):
     if not os.path.exists(directory_path):
         os.mkdir(directory_path)
+
+def remove_files_from_directory(path):
+    for file in os.listdir(path):
+        os.remove(os.path.join(path, file))
