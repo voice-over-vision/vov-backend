@@ -62,7 +62,7 @@ class AskTheVideoRequest(View):
 
             answer = openai_handler.get_openai_response(message)
 
-            return(JsonResponse({'answer': answer, 'result': result}))
+            return(JsonResponse({'answer': answer, 'result': result, "audio_description": openai_handler.description_to_speech(answer)}))
 
         if question_category in [2,3]:
             video_info = [{
@@ -99,7 +99,10 @@ class AskTheVideoRequest(View):
 
                 answer = openai_handler.get_openai_response(message)
 
-        return JsonResponse({'answer': answer, 
-                            "result": result, 
-                            "category": question_category, 
-                            "use_chroma": use_chroma})
+        return JsonResponse({
+            'answer': answer, 
+            "result": result, 
+            "category": question_category, 
+            "use_chroma": use_chroma,
+            "audio_description": openai_handler.description_to_speech(answer)
+        })

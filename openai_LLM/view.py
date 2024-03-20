@@ -7,7 +7,7 @@ from vov_backend.settings import env
 from vov_backend.utils import create_directory, timing_decorator
 
 class OpenAIHandler:
-    def __init__(self, video_id) -> None:
+    def __init__(self, filename) -> None:
         api_key = env("OPENAI_API_KEY")
 
         self.client = OpenAI(api_key=api_key)
@@ -15,7 +15,7 @@ class OpenAIHandler:
 
         output_dir = os.path.join(os.path.dirname(__file__), 'output')
         create_directory(output_dir)
-        self.output_path = os.path.join(output_dir, f'{video_id}.json')
+        self.output_path = os.path.join(output_dir, f'{filename}.json')
 
     @timing_decorator
     def get_transcript(self, video_path, youtube_id):
