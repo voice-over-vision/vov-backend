@@ -115,8 +115,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 with open(output_path, 'w') as file:
                     json.dump(audio_descriptions, file, indent=4) 
                 logger.info("#### Request completed ####")
-
+                
                 data_path = f'./data/{youtube_id}'
+                create_directory('./data/')
                 create_directory(data_path)
                 with open(f'data/{youtube_id}/data_by_scene.pkl', 'wb') as f:
                     pickle.dump(data_by_scene, f)
