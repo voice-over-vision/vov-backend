@@ -152,7 +152,7 @@ Our appreciation goes to the OpenAI team for providing foundational AI technolog
 ```bibtex
 @software{voice-over-vision,
   author = {Davi Giordano, Guilherme Mariano, Mariana Serrao and Murillo Teixeira},
-  title = {Voice-Over Vision: slogan},
+  title = {Voice-Over Vision: The future of the internet is accessible},
   month = {March},
   year = {2024},
   url = {https://github.com/voice-over-vision}
