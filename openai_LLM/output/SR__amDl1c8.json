@@ -1,0 +1,30 @@
+[
+    {
+        "description": "Lonely gas station at night, brightly lit, no people.",
+        "start_timestamp": 2.6019954648526076,
+        "action": "pause",
+        "video_speed": 1,
+        "silence_duration": 0.34120181405895694
+    },
+    {
+        "description": "Person on bike crosses illuminated gas station in still night.",
+        "start_timestamp": 4.838166666666666,
+        "action": "pause",
+        "video_speed": 1,
+        "silence_duration": 0
+    },
+    {
+        "description": "Character with bike approaches and enters a well-lit store.",
+        "start_timestamp": 30.508321995464854,
+        "action": "pause",
+        "video_speed": 1,
+        "silence_duration": 0.5836281179138322
+    },
+    {
+        "description": "Person wanders inside a store among rows of snacks.",
+        "start_timestamp": 36.443492063492066,
+        "action": "pause",
+        "video_speed": 1,
+        "silence_duration": 0.5836281179138322
+    }
+]

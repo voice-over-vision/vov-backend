@@ -147,7 +147,7 @@ LOGGING = {
         "file": {
             "level": "INFO",
             "class": "logging.FileHandler",
-            "filename": "./debug/debug.log",
+            "filename": "./logs/debug.log",
         }
     },
     "root": {
