@@ -41,7 +41,6 @@ def main():
     with open(readme_path, 'r+', encoding='utf-8') as file:
         readme = file.read()
         updated_readme = update_readme(readme, org_section_dict)
-        print(updated_readme)
         file.seek(0)
         file.write(updated_readme)
         file.truncate()

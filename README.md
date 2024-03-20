@@ -120,37 +120,33 @@ python manage.py runserver
 <table>
   <tbody>
     <tr>
-      <td align="center" width=15%>
+      <td align="center" valign="top" width=15%>
         <a href="https://github.com/DaviGiordano" style="text-decoration: none;">
           <img src="https://github.com/DaviGiordano.png" width="100%;" style="max-width:150px" alt="Davi Giordano"/>
           <br/>
           <sub><b>Davi Giordano</b></sub>
         </a>
-        <br />
       </td>
-      <td align="center" width=15%>
+      <td align="center" valign="top" width=15%>
         <a href="https://github.com/guilherme-francisco" style="text-decoration: none;">
           <img src="https://github.com/guilherme-francisco.png" width="100%;" style="max-width:150px"alt="Guilherme Mariano"/>
           <br />
           <sub><b>Guilherme Mariano</b></sub>
         </a>
-        <br />
       </td>
-      <td align="center" width=15%>
+      <td align="center" valign="top" width=15%>
         <a href="https://github.com/marianaserrao" style="text-decoration: none;">
           <img src="https://github.com/marianaserrao.png" width="100%;" style="max-width:150px" alt="Mariana Serrao"/>
           <br />
           <sub><b>Mariana Serrão</b></sub>
         </a>
-        <br />
       </td>
-      <td align="center" width=15%>
+      <td align="center" valign="top" width=15%>
         <a href="https://github.com/murillo-teixeira" style="text-decoration: none;">
           <img src="https://github.com/murillo-teixeira.png" width="100%;" style="max-width:150px" alt="Murillo Teixeira"/>
           <br />
           <sub><b>Murillo Teixeira</b></sub>
         </a>
-        <br />
       </td>
     </tr>
   </tbody>
