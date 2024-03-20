@@ -55,6 +55,9 @@ class ChromaStorage():
             name=youtube_id, 
             embedding_function=OpenCLIPEmbeddingFunction(),
         )
+        if len(self.collection.get()['ids'])>0:
+            self.collection.delete(self.collection.get()['ids'])
+
         return self.collection
     
     def get_most_similar_scene(self, scene):
