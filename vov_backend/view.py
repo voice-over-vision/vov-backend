@@ -50,7 +50,9 @@ class AskTheVideoRequest(View):
 
         result = openai_handler.get_openai_response(message)
         question_category = int(result)
-
+        
+        print('Question category:', question_category)
+        
         if question_category==1:
             context_frames = [previous_keyframe, following_keyframe]
 
