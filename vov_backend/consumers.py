@@ -1,6 +1,7 @@
 import asyncio
 import json
 import os
+import pickle
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 from chroma_db.view import chroma
@@ -12,7 +13,7 @@ from silence_detection.sound import get_audio_duration_from_b64
 from vov_backend.process_video import get_video
 from vov_backend.model import EventTypes
 import logging
-from vov_backend.utils import remove_files_from_directory, timing_decorator
+from vov_backend.utils import create_directory, remove_files_from_directory, timing_decorator
 
 
 logger = logging.getLogger(__name__)
@@ -52,7 +53,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 # get audio descriptions
                 logger.info("#### Communication with openai started ####")
                 audio_descriptions = []
-                
+                results = []
                 logger.info("#### Instantiate ChromaStorage")
 
                 metadata = f"Title: {yt.title}, " + f"Author: {yt.author}, "+ f"Keywords: {yt.keywords}"    
@@ -76,6 +77,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                                               data_by_scene[similar_scene_id])
 
                     result = json.loads(openai_handler.get_openai_response(message))
+                    results.append(result)
                     chroma.save_to_chroma(scene, result)
                     scene.update(result)
                     scene.update({'most_similar_scene': similar_scene_id})
@@ -113,6 +115,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 with open(output_path, 'w') as file:
                     json.dump(audio_descriptions, file, indent=4) 
                 logger.info("#### Request completed ####")
+
+                data_path = f'./data/{youtube_id}'
+                create_directory(data_path)
+                with open(f'data/{youtube_id}/data_by_scene.pkl', 'wb') as f:
+                    pickle.dump(data_by_scene, f)
+                with open(f'data/{youtube_id}/results.pkl', 'wb') as f:
+                    pickle.dump(results, f)   
 
                 # files are no longer necessary
                 remove_files_from_directory('./audios')
