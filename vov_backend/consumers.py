@@ -50,6 +50,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 logger.info("#### Getting the scenes ####")
                 data_by_scene = get_data_by_scene(video_path, video_captions)
 
+                # Sending pause_moments
+                pause_moments = [scene['best_narration_start'] for scene in data_by_scene]
+
+                await self.sending_message({
+                    "event": EventTypes.PAUSE_MOMENTS,
+                    "pause_moments": pause_moments
+                })
+
                 # get audio descriptions
                 logger.info("#### Communication with openai started ####")
                 audio_descriptions = []
