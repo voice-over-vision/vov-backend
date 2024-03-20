@@ -26,9 +26,9 @@ class OpenAIHandler:
         return get_transcript_from_whisper(self.client, audio_path)
     
     @timing_decorator
-    def get_openai_response(self, messages):
+    def get_openai_response(self, messages, model="gpt-4-vision-preview"):
         chat_response = self.client.chat.completions.create(
-            model="gpt-4-vision-preview",
+            model=model,
             messages=messages,
             max_tokens=600
         )

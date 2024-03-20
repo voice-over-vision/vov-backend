@@ -3,7 +3,7 @@ import json
 import os
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-from chroma_db.view import ChromaStorage
+from chroma_db.view import chroma
 from openai_LLM.model import PromptDirector
 from openai_LLM.view import OpenAIHandler
 from scene_extraction.views import get_data_by_scene
@@ -54,10 +54,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 audio_descriptions = []
                 
                 logger.info("#### Instantiate ChromaStorage")
-                chroma = ChromaStorage(youtube_id)
 
                 metadata = f"Title: {yt.title}, " + f"Author: {yt.author}, "+ f"Keywords: {yt.keywords}"    
                 prompt_dir = PromptDirector(metadata)
+                chroma.get_collection(youtube_id)
                 for scene in data_by_scene:
 
                     curr_scene_id = scene['scene_id']

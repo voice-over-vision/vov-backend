@@ -1,0 +1,4 @@
+# This is an array with information by scene of the video:
+{video_info}
+# The scenes that are most relevant for answering the question have indexes (in order of relevance):
+{key_scene_ids}

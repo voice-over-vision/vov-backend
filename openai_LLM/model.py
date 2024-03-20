@@ -146,13 +146,73 @@ class PromptDirector():
         pb.append_img_msg(read_file( os.path.join(current_dir,'prompts/other_scenes/03_curr_img_intro.txt')), {'section_number': str(curr_scene_id)}, curr_images)
         pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/04_transcript.txt')), {'section_number': str(curr_scene_id), 'transcript':curr_transcript})
 
-        pb.append_text_msg(read_file(os.path.join(current_dir,'./prompts/other_scenes/05_state_prev.txt')), {'state': str(previous_states)})
-        pb.append_text_msg(read_file(os.path.join(current_dir,'./prompts/other_scenes/06_comp_desc_prev.txt')), {'complete_description':previous_descriptions})
-        pb.append_text_msg(read_file(os.path.join(current_dir,'./prompts/other_scenes/07_narrat_prev.txt')), {'narration':previous_narrations})
+        pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/05_state_prev.txt')), {'state': str(previous_states)})
+        pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/06_comp_desc_prev.txt')), {'complete_description':previous_descriptions})
+        pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/07_narrat_prev.txt')), {'narration':previous_narrations})
 
         
         pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/08_comp_desc_similar.txt')), {'section_number': str(scene_id_similar), 'complete_description':desc_complete_similar})
         pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/09_narrat_similar.txt')), {'section_number': str(scene_id_similar), 'narrat_necessary':narrat_necessary_similar, 'narration':desc_blind_similar})
         pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/other_scenes/10_get_json.txt')), {})
 
+        return pb.get_prompt()
+
+    def get_question_categorization_prompt(self, question, context_frames, scene_caption, scene_description, scene_state):
+            
+            images = list(map(convert_img_b64, context_frames)) 
+
+            pb = PromptBuilder()
+            current_dir = os.path.dirname(__file__)
+            pb.append_sys_msg(read_file( os.path.join(current_dir,'prompts/question_categorization/01_system.txt')))
+            pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/question_categorization/02_metadata.txt')), {'metadata': self.metadata})
+            pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/question_categorization/03_question_input.txt')), {'question': question})
+            pb.append_img_msg(read_file( os.path.join(current_dir,'prompts/question_categorization/04_key_frames_input.txt')), {}, images)
+            pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/question_categorization/05_text_input.txt')), {'description': scene_description, 'caption': scene_caption})
+            pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/question_categorization/06_state_input.txt')), {'characters': scene_state['characters'], 'environment': scene_state['environment']})
+            pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/question_categorization/07_response_instructions.txt')), {})
+            
+            return pb.get_prompt()
+    
+    def get_question_current_scene(self, question, context_frames, scene_caption, scene_description, scene_state):
+    
+        images = list(map(convert_img_b64, context_frames)) 
+
+        pb = PromptBuilder()
+        current_dir = os.path.dirname(__file__)
+        pb.append_sys_msg(read_file( os.path.join(current_dir,'prompts/question_current_scene/01_system.txt')))
+        pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/question_current_scene/02_metadata.txt')), {'metadata': self.metadata})
+        pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/question_current_scene/03_question_input.txt')), {'question': question})
+        pb.append_img_msg(read_file( os.path.join(current_dir,'prompts/question_current_scene/04_key_frames_input.txt')), {}, images)
+        pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/question_current_scene/05_text_input.txt')), {'description': scene_description, 'caption': scene_caption})
+        pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/question_current_scene/06_state_input.txt')), {'characters': scene_state['characters'], 'environment': scene_state['environment']})
+        pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/question_current_scene/07_response_instructions.txt')), {})
+        
+        return pb.get_prompt()
+    
+
+    def get_question_video_initial_prompt(self, question, video_info):
+
+        pb = PromptBuilder()
+        current_dir = os.path.dirname(__file__)
+        pb.append_sys_msg(read_file(os.path.join(current_dir, 'prompts/question_video/initial/01_system.txt')))
+        # pb.append_text_msg(read_prompt_template(os.path.join(current_dir,'prompts/question_video/initial/02_metadata.txt')), {'metadata': self.metadata})
+        pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/question_video/initial/03_question_input.txt')), {'question': question})
+        pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/question_video/initial/04_video_info_input.txt')), {'video_info': video_info})
+        pb.append_text_msg(read_file(os.path.join(current_dir,'prompts/question_video/initial/05_response_instructions.txt')), {})
+        
+        return pb.get_prompt()
+    
+    def get_question_video_visual_prompt(self, question, video_info, key_scene_ids, keyframes):
+
+        pb = PromptBuilder()
+        current_dir = os.path.dirname(__file__)
+        pb.append_sys_msg(read_file(os.path.join(current_dir,'prompts/question_video/visual/01_system.txt')))
+        # pb.append_text_msg(read_prompt_template(os.path.join(current_dir,'prompts/question_video/visual/02_metadata.txt')), {'metadata': self.metadata})
+        pb.append_text_msg(read_file(os.path.join(current_dir, 'prompts/question_video/visual/03_question_input.txt')), {'question': question})
+        pb.append_text_msg(read_file(os.path.join(current_dir, 'prompts/question_video/visual/04_video_info_input.txt')), {'key_scene_ids':key_scene_ids,'video_info': video_info})
+        for i, scene_id in enumerate(key_scene_ids):
+            images = list(map(convert_img_b64, keyframes[i])) 
+            pb.append_img_msg(read_file(os.path.join(current_dir, 'prompts/question_video/visual/05_key_frames_input.txt')), {'scene_id': scene_id}, images)
+        pb.append_text_msg(read_file(os.path.join(current_dir, 'prompts/question_video/visual/06_response_instructions.txt')), {})
+        
         return pb.get_prompt()

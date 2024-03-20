@@ -1,0 +1,2 @@
+# This is the question the blind person asked:
+{question}

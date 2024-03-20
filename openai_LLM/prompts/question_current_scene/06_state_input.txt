@@ -1,0 +1,4 @@
+# These are the characters that were identified in the current scene:
+{characters}
+# And this is a description of the environment in the current scene:
+{environment}
