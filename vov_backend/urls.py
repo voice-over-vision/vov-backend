@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from vov_backend.view import AskTheVideoRequest
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('ask-the-video/', AskTheVideoRequest.as_view(), name='ask_video'),
 ]

@@ -1,0 +1,2 @@
+# The person paused the video to ask the question.
+# This are the two frames that best describe the moment in which the video was paused.

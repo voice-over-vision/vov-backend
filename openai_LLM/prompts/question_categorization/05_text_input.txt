@@ -1,0 +1,5 @@
+# The person paused the video to ask the question.
+# This is an audio description of the scene in which the video was paused:
+{description}
+# And this is are the captions for the scene in which the video was paused:
+{caption}

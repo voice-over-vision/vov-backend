@@ -3,7 +3,7 @@ import json
 import os
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-from chroma_db.view import ChromaStorage
+from chroma_db.view import chroma
 from openai_LLM.model import PromptDirector
 from openai_LLM.view import OpenAIHandler
 from scene_extraction.views import get_data_by_scene
@@ -12,7 +12,7 @@ from silence_detection.sound import get_audio_duration_from_b64
 from vov_backend.process_video import get_video
 from vov_backend.model import EventTypes
 import logging
-from vov_backend.utils import timing_decorator
+from vov_backend.utils import remove_files_from_directory, timing_decorator
 
 
 logger = logging.getLogger(__name__)
@@ -43,7 +43,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 
                 # get transcription
                 logger.info("#### Starting getting the transcript ####")
-                video_captions, audio_path = openai_handler.get_transcript(video_path, youtube_id)
+                video_captions = openai_handler.get_transcript(video_path, youtube_id)
 
                 # get scene data 
                 logger.info("#### Getting the scenes ####")
@@ -54,14 +54,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 audio_descriptions = []
                 
                 logger.info("#### Instantiate ChromaStorage")
-                chroma = ChromaStorage(youtube_id)
 
                 metadata = f"Title: {yt.title}, " + f"Author: {yt.author}, "+ f"Keywords: {yt.keywords}"    
                 prompt_dir = PromptDirector(metadata)
+                chroma.get_collection(youtube_id)
                 for scene in data_by_scene:
 
                     curr_scene_id = scene['scene_id']
-                    logger.info('>> Current scene:', curr_scene_id)
+                    logger.info(f'>> Current scene: {curr_scene_id}')
 
                     if(scene['scene_id'] > 3):
                         break
@@ -114,9 +114,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     json.dump(audio_descriptions, file, indent=4) 
                 logger.info("#### Request completed ####")
 
-                # audio is no long necessary
-                os.remove(audio_path)
-                os.rmdir(os.path.dirname(audio_path))
+                # files are no longer necessary
+                remove_files_from_directory('./audios')
+                remove_files_from_directory('./videos')
                 await self.close()
             else:
                 logger.info("#### Video already processed! ####")

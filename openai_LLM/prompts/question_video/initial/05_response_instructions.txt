@@ -1,0 +1,2 @@
+# Respond with only with a json in the following format:
+# {"answer": Answer to the question (your first task),"answer_satisfactory": 0 for not and 1 for yes (your second task),"query": A string for querying the embedding database (your final task)}
