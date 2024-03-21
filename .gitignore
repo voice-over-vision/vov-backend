@@ -1,3 +1,10 @@
+audios/
+openai_LLM/output/
+
+.mp3
+.mp4
+.pkl
+
 # Django #
 *.log
 *.pot
