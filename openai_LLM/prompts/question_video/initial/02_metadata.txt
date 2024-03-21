@@ -1,0 +1,4 @@
+# Now you will be given the metadata of the video.
+{metadata}
+
+# The metadata is only for additional context, give more importance to analyzing the information from the scenes

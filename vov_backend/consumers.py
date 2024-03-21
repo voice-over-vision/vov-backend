@@ -1,9 +1,10 @@
 import asyncio
 import json
 import os
+import pickle
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-from chroma_db.view import ChromaStorage
+from chroma_db.view import chroma
 from openai_LLM.model import PromptDirector
 from openai_LLM.view import OpenAIHandler
 from scene_extraction.views import get_data_by_scene
@@ -12,7 +13,7 @@ from silence_detection.sound import get_audio_duration_from_b64
 from vov_backend.process_video import get_video
 from vov_backend.model import EventTypes
 import logging
-from vov_backend.utils import timing_decorator
+from vov_backend.utils import create_directory, remove_files_from_directory, timing_decorator
 
 
 logger = logging.getLogger(__name__)
@@ -43,25 +44,33 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 
                 # get transcription
                 logger.info("#### Starting getting the transcript ####")
-                video_captions, audio_path = openai_handler.get_transcript(video_path, youtube_id)
+                video_captions = openai_handler.get_transcript(video_path, youtube_id)
 
                 # get scene data 
                 logger.info("#### Getting the scenes ####")
                 data_by_scene = get_data_by_scene(video_path, video_captions)
 
+                # Sending pause_moments
+                pause_moments = [scene['best_narration_start'] for scene in data_by_scene]
+
+                await self.sending_message({
+                    "event": EventTypes.PAUSE_MOMENTS,
+                    "pause_moments": pause_moments
+                })
+
                 # get audio descriptions
                 logger.info("#### Communication with openai started ####")
                 audio_descriptions = []
-                
+                results = []
                 logger.info("#### Instantiate ChromaStorage")
-                chroma = ChromaStorage(youtube_id)
 
                 metadata = f"Title: {yt.title}, " + f"Author: {yt.author}, "+ f"Keywords: {yt.keywords}"    
                 prompt_dir = PromptDirector(metadata)
+                chroma.get_collection(youtube_id)
                 for scene in data_by_scene:
 
                     curr_scene_id = scene['scene_id']
-                    logger.info('>> Current scene:', curr_scene_id)
+                    logger.info(f'>> Current scene: {curr_scene_id}')
 
                     if(scene['scene_id'] > 3):
                         break
@@ -76,6 +85,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                                               data_by_scene[similar_scene_id])
 
                     result = json.loads(openai_handler.get_openai_response(message))
+                    results.append(result)
                     chroma.save_to_chroma(scene, result)
                     scene.update(result)
                     scene.update({'most_similar_scene': similar_scene_id})
@@ -113,10 +123,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 with open(output_path, 'w') as file:
                     json.dump(audio_descriptions, file, indent=4) 
                 logger.info("#### Request completed ####")
+                
+                data_path = f'./data/{youtube_id}'
+                create_directory('./data/')
+                create_directory(data_path)
+                with open(f'data/{youtube_id}/data_by_scene.pkl', 'wb') as f:
+                    pickle.dump(data_by_scene, f)
+                with open(f'data/{youtube_id}/results.pkl', 'wb') as f:
+                    pickle.dump(results, f)   
 
-                # audio is no long necessary
-                os.remove(audio_path)
-                os.rmdir(os.path.dirname(audio_path))
+                # files are no longer necessary
+                remove_files_from_directory('./audios')
+                remove_files_from_directory('./videos')
                 await self.close()
             else:
                 logger.info("#### Video already processed! ####")

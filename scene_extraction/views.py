@@ -80,3 +80,45 @@ def get_data_by_scene(video_path, video_captions, caption_context_window_seconds
         data_by_scene.append(scene_processed)
         index += 1
     return data_by_scene
+
+def get_scene_id_by_time(timestamp_seconds, data_by_scene):
+    scene_starts = np.array([scene['scene_start_seconds'] for scene in data_by_scene])
+    scene_ends = np.array([scene['scene_end_seconds'] for scene in data_by_scene])
+
+    scene_id = np.where(
+        (scene_starts <= timestamp_seconds) & (timestamp_seconds <= scene_ends)
+    )[0][0]
+    
+    return scene_id
+
+def get_previous_following_keyframe(scene, frame_rate, timestamp):
+    current_frame_id = int(frame_rate * timestamp)
+
+    scene_frames_indices = scene['scene_frames_indices']
+    scene_frames = scene['scene_frames']
+
+    # If there is not a frame before, get the first frame
+    if (scene_frames_indices < current_frame_id).any():
+        closest_previous_frame_id = scene_frames_indices[scene_frames_indices < current_frame_id].argmax()
+    else:
+        closest_previous_frame_id = 0
+
+    # If there is not a frame after, get the last frame
+    if len(scene_frames) > closest_previous_frame_id + 1:
+        closest_following_frame_id = closest_previous_frame_id + 1
+    else:
+        closest_following_frame_id = closest_previous_frame_id
+
+    print(closest_previous_frame_id, closest_following_frame_id)
+
+    if closest_previous_frame_id == closest_following_frame_id:
+        context_frames = [scene_frames[closest_previous_frame_id]]
+    else:
+        context_frames = [scene_frames[closest_previous_frame_id], scene_frames[closest_following_frame_id]]
+        
+
+    # Prompt information
+    previous_keyframe = scene_frames[closest_previous_frame_id]
+    following_keyframe = scene_frames[closest_following_frame_id]
+
+    return previous_keyframe, following_keyframe, context_frames

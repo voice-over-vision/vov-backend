@@ -1,24 +1,23 @@
 from collections import Counter
+import os
 
 import chromadb
 from chromadb.utils.embedding_functions import OpenCLIPEmbeddingFunction
 import numpy as np
 
-from vov_backend.utils import timing_decorator
+from vov_backend.utils import create_directory, timing_decorator
 
 class ChromaStorage():
-    def __init__(self, youtube_video_id):
-        self.collection = self._create_collection(youtube_video_id)
+    def __init__(self):
+        self.client = self._create_client()
 
     @timing_decorator
-    def _create_collection(self, youtube_video_id):
-        embedding_function = OpenCLIPEmbeddingFunction()
-        chroma_client = chromadb.Client()
+    def _create_client(self):
+        storage_dir = os.path.join(os.path.dirname(__file__), 'storage')
+        create_directory(storage_dir)
+        client = chromadb.PersistentClient(storage_dir)
 
-        return chroma_client.get_or_create_collection(
-            name=youtube_video_id, 
-            embedding_function=embedding_function,
-        )
+        return client
    
     def save_to_chroma(self, scene, results):
         """Adds the scene and result data to the collection. Returns collection""" 
@@ -33,7 +32,7 @@ class ChromaStorage():
         curr_id = 0
         ids_frames = [f'frame_{scene_id}_{curr_id+count}' for count, img in enumerate(frames_to_save)]
         curr_id = curr_id+len(frames_to_save)
-        metadata_frames = [{'scene_id':f'{scene_id}', 'type':'frame'} for frame in ids_frames]
+        metadata_frames = [{'scene_id': scene_id, 'type':'frame'} for frame in ids_frames]
 
         self.collection.upsert(
             ids=ids_frames,
@@ -51,7 +50,14 @@ class ChromaStorage():
             metadatas=metadata_docs
         )
 
-    def get_collection(self):
+    def get_collection(self, youtube_id):
+        self.collection = self.client.get_or_create_collection(
+            name=youtube_id, 
+            embedding_function=OpenCLIPEmbeddingFunction(),
+        )
+        if len(self.collection.get()['ids'])>0:
+            self.collection.delete(self.collection.get()['ids'])
+
         return self.collection
     
     def get_most_similar_scene(self, scene):
@@ -64,5 +70,39 @@ class ChromaStorage():
         similar_scenes_ids = [int(result['scene_id']) for result in np.array(results_query['metadatas']).squeeze()]
         most_voted_scene_id = Counter(similar_scenes_ids).most_common(1)[0][0] # Returns first of list if draw
         return most_voted_scene_id
+    
+    def get_scenes_to_question_context(self, query_text):
+        results = self.collection.query(
+            query_texts=[query_text],
+            where={'type':'frame'},
+            n_results=5
+        )
+
+        scenes_from_image_query = [metadata['scene_id'] for metadata in results['metadatas'][0]]
+
+        results = self.collection.query(
+            query_texts=[query_text],
+            where={'type':'description'},
+            n_results=5
+        )
+
+        scenes_from_description_query = [metadata['scene_id'] for metadata in results['metadatas'][0]]
+
+        results = self.collection.query(
+            query_texts=[query_text],
+            where={'type':'caption'},
+            n_results=5
+        )
+
+        scenes_from_caption_query = [metadata['scene_id'] for metadata in results['metadatas'][0]]
+
+        scenes_counter = Counter(
+            scenes_from_image_query*2 + scenes_from_description_query + scenes_from_caption_query
+        )
+
+        most_relevant_scenes = [scene[0] for scene in scenes_counter.most_common(3)]
+
+        return most_relevant_scenes
 
 
+chroma = ChromaStorage()

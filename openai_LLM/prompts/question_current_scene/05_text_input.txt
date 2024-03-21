@@ -1,0 +1,4 @@
+# This is an audio description of the current scene:
+{description}
+# And this is are the captions of the current scene:
+{caption}

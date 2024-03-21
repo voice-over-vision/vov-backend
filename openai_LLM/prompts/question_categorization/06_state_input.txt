@@ -1,0 +1,5 @@
+# The person paused the video to ask the question.
+# These are the characters that were identified in the scene in which the video was paused:
+{characters}
+# And this is a description of the environment in the scene in which the video was paused:
+{environment}

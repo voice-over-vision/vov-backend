@@ -1,16 +1,13 @@
 import base64
-import environ
 import os
 from openai_LLM.whisper import get_transcript_from_whisper
 from vov_backend.process_video import save_audio_file
 from openai import OpenAI
-
+from vov_backend.settings import env
 from vov_backend.utils import create_directory, timing_decorator
 
 class OpenAIHandler:
-    def __init__(self, video_id) -> None:
-        env = environ.Env()
-        environ.Env.read_env()
+    def __init__(self, filename) -> None:
         api_key = env("OPENAI_API_KEY")
 
         self.client = OpenAI(api_key=api_key)
@@ -18,7 +15,7 @@ class OpenAIHandler:
 
         output_dir = os.path.join(os.path.dirname(__file__), 'output')
         create_directory(output_dir)
-        self.output_path = os.path.join(output_dir, f'{video_id}.json')
+        self.output_path = os.path.join(output_dir, f'{filename}.json')
 
     @timing_decorator
     def get_transcript(self, video_path, youtube_id):
@@ -26,12 +23,12 @@ class OpenAIHandler:
         audio_path = os.path.join(self.audio_dir, f'{youtube_id}.mp3')
         save_audio_file(audio_path, video_path)
         
-        return get_transcript_from_whisper(self.client, audio_path), audio_path
+        return get_transcript_from_whisper(self.client, audio_path)
     
     @timing_decorator
-    def get_openai_response(self, messages):
+    def get_openai_response(self, messages, model="gpt-4-vision-preview"):
         chat_response = self.client.chat.completions.create(
-            model="gpt-4-vision-preview",
+            model=model,
             messages=messages,
             max_tokens=600
         )
