@@ -142,6 +142,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 with open(output_path, 'r') as file:
                     audio_descriptions = json.load(file)
 
+                pause_moments = [audio_description['start_timestamp'] 
+                                 for audio_description in audio_descriptions]
+
+                await self.sending_message({
+                    "event": EventTypes.PAUSE_MOMENTS,
+                    "pause_moments": pause_moments
+                })
+
                 for index, audio_description in enumerate(audio_descriptions):
                     await self.sending_message({
                         "event": EventTypes.AUDIO_DESCRIPTION,

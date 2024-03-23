@@ -1,4 +1,3 @@
-import os
 import pickle
 from django.http import JsonResponse
 from django.views import View
