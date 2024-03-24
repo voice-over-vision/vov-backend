@@ -50,7 +50,7 @@ Instructions on how to install and run Voice-Over Vision (soon to be released at
 
 - Google Chrome or any Chromium-based browser.
 - Git installed and configured on your machine
-- [https://www.docker.com/get-started/#h_installation](Docker installed)
+- [Docker installed](https://www.docker.com/get-started/#h_installation)
 
 <!-- installation_backend -->
 ### Installing the back-end
