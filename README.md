@@ -21,7 +21,9 @@ We present **Voice-Over Vision**, a tool that transforms YouTube watching for th
 <!-- demos -->
 ## 🎬 Demos
 
-[![Voice-Over Video Demo](https://img.youtube.com/vi/6-y6Nq-UWZw/0.jpg)](https://www.youtube.com/watch?v=6-y6Nq-UWZw)
+<p align="center">
+<a href="https://www.youtube.com/watch?v=6-y6Nq-UWZw"><img src="https://img.youtube.com/vi/6-y6Nq-UWZw/0.jpg" /></a>
+</p>
 
 <!-- features -->
 ## 🚀 Features
@@ -48,8 +50,7 @@ Instructions on how to install and run Voice-Over Vision (soon to be released at
 
 - Google Chrome or any Chromium-based browser.
 - Git installed and configured on your machine
-- Python version: 3.11.8
-- Pip: 24.0
+- [Docker installed](https://www.docker.com/get-started/#h_installation)
 
 <!-- installation_backend -->
 ### Installing the back-end
@@ -61,24 +62,7 @@ git clone https://github.com/voice-over-vision/vov-backend.git
 cd vov-backend
 ```
 
-#### 2. **Install dependencies**
-
-```sh
-# Create a virtual environment and activate it
-
-## Linux
-python3 -m venv env
-source env/bin/activate
-
-## Windows
-python -m venv env
-env\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-#### 3. **Configure the OpenAI key**
+#### 2. **Configure the OpenAI key**
 
 ```sh
 # Change directories into the vov_backend app
@@ -99,20 +83,37 @@ cd . > .env
 OPENAI_API_KEY={OPENAI_API_KEY} # OPENAI_API_KEY should be replaced by your API_KEY from OpenAI
 ```
 
-#### 4. **Run the server**
+#### 3. **Install dependencies**
+Install the dependencies by running the docker compose run command as follows:
 
 ```sh
-cd ../ # return to the project's root directory
-python manage.py runserver
+docker compose up -d
 ```
 
-- You can test the backend by navegating to [http://127.0.0.1:8000/get_audio_description?youtubeID=keOaQm6RpBg](http://127.0.0.1:8000/get_audio_description?youtubeID=keOaQm6RpBg)
+After few minutes, everything should be ready to use: 
+<p align="center">
+<img src="https://github.com/voice-over-vision/vov-backend/assets/51465482/afe8c471-4ee0-437c-a218-599cc1619190" />
+</p>
+
+#### 4. **Test the server**
+
+- You can test the backend by navigating to [http://127.0.0.1:8000/get_audio_description?youtubeID=keOaQm6RpBg](http://127.0.0.1:8000/get_audio_description?youtubeID=keOaQm6RpBg)
+
+<p align="center">
+<img src="https://github.com/voice-over-vision/vov-backend/assets/51465482/19ae2f09-166c-45f8-8a2a-2b5a7af48bda" />
 
 <!-- direct_to_frontend -->
-#### **Next: Instal the front-end (Chrome extension)**
+#### 5. **Next: Install the front-end (Chrome extension)**
 - Navigate to the [front-end repository](https://github.com/voice-over-vision/vov-chrome-extension)
 - Follow the installation instructions on the front-end's README
 - Enjoy the magic of Voice-Over Video!✨
+
+#### 6. **Turn down the server**
+You can turn down the server by running docker compose down:
+
+```sh
+docker compose down
+```
 
 <!-- contribution -->
 ## 🌟 Contribution
