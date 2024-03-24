@@ -89,19 +89,24 @@ docker compose up -d
 ```
 
 After few minutes, everything should be ready to use: 
+<p align="center">
+<img src="https://github.com/voice-over-vision/vov-backend/assets/51465482/afe8c471-4ee0-437c-a218-599cc1619190" />
+</p>
 
 #### 4. **Test the server**
 
 - You can test the backend by navigating to [http://127.0.0.1:8000/get_audio_description?youtubeID=keOaQm6RpBg](http://127.0.0.1:8000/get_audio_description?youtubeID=keOaQm6RpBg)
 
+<p align="center">
+<img src="https://github.com/voice-over-vision/vov-backend/assets/51465482/19ae2f09-166c-45f8-8a2a-2b5a7af48bda" />
+
 <!-- direct_to_frontend -->
-#### **Next: Install the front-end (Chrome extension)**
+#### 5. **Next: Install the front-end (Chrome extension)**
 - Navigate to the [front-end repository](https://github.com/voice-over-vision/vov-chrome-extension)
 - Follow the installation instructions on the front-end's README
 - Enjoy the magic of Voice-Over Video!✨
 
-
-#### .5 **Turn down the server**
+#### 6. **Turn down the server**
 You can turn down the server by running docker compose down:
 
 ```sh
