@@ -21,9 +21,7 @@ We present **Voice-Over Vision**, a tool that transforms YouTube watching for th
 <!-- demos -->
 ## 🎬 Demos
 
-<p align="center">
-<a href="https://www.youtube.com/watch?v=6-y6Nq-UWZw"><img src="https://img.youtube.com/vi/6-y6Nq-UWZw/0.jpg" /></a>
-</p>
+[![Voice-Over Video Demo](https://img.youtube.com/vi/6-y6Nq-UWZw/0.jpg)](https://www.youtube.com/watch?v=6-y6Nq-UWZw)
 
 <!-- features -->
 ## 🚀 Features
@@ -48,9 +46,10 @@ Instructions on how to install and run Voice-Over Vision (soon to be released at
 <!-- prerequisites -->
 ### Prerequisites
 
-- Google Chrome or any Chromium-based browser.
+- Google Chrome or any Chromium-based browser (except for Brave, for now).
 - Git installed and configured on your machine
-- [Docker installed](https://www.docker.com/get-started/#h_installation)
+- Python version: 3.11.8
+- Pip: 24.0
 
 <!-- installation_backend -->
 ### Installing the back-end
@@ -62,7 +61,24 @@ git clone https://github.com/voice-over-vision/vov-backend.git
 cd vov-backend
 ```
 
-#### 2. **Configure the OpenAI key**
+#### 2. **Install dependencies**
+
+```sh
+# Create a virtual environment and activate it
+
+## Linux
+python3 -m venv env
+source env/bin/activate
+
+## Windows
+python -m venv env
+env\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+#### 3. **Configure the OpenAI key**
 
 ```sh
 # Change directories into the vov_backend app
@@ -83,24 +99,21 @@ cd . > .env
 OPENAI_API_KEY={OPENAI_API_KEY} # OPENAI_API_KEY should be replaced by your API_KEY from OpenAI
 ```
 
-#### 3. **Install dependencies**
-Install the dependencies by running the docker compose run command as follows:
+#### 4. **Build the Docker image**
 
 ```sh
-docker compose up -d
+cd ../ # return to the project's root directory
+docker build -t vov-backend .
 ```
 
-After few minutes, everything should be ready to use: 
-<p align="center">
-<img src="https://github.com/voice-over-vision/vov-backend/assets/51465482/afe8c471-4ee0-437c-a218-599cc1619190" />
-</p>
+#### 5. **Run the Docker image**
 
-#### 4. **Test the server**
+```sh
+cd ../ # return to the project's root directory
+docker run -p 8000:8000 vov-backend
+```
 
-- You can test the backend by navigating to [http://127.0.0.1:8000/get_audio_description?youtubeID=keOaQm6RpBg](http://127.0.0.1:8000/get_audio_description?youtubeID=keOaQm6RpBg)
-
-<p align="center">
-<img src="https://github.com/voice-over-vision/vov-backend/assets/51465482/19ae2f09-166c-45f8-8a2a-2b5a7af48bda" />
+After few minutes, everything should be ready to use!
 
 <!-- direct_to_frontend -->
 #### 5. **Next: Install the front-end (Chrome extension)**
@@ -162,7 +175,7 @@ We extend our heartfelt thanks to the developers and community behind Chroma DB 
 
 ### GPT-4
 
-Our appreciation goes to the OpenAI team for providing foundational AI technology for our project. The robustness of GPT-4 was instrumental for our project's natural language processing and image processing capabilities.
+Our appreciation goes to the OpenAI team for providing foundational AI technology for our project. The robustness of GPT-4 was instrumental in our project's natural language processing and image processing capabilities.
 
 <!-- citation -->
 ## 📄 Citation
